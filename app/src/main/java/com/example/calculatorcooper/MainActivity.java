@@ -10,14 +10,18 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Stack<Double> stack = new Stack<Double>();
+    Stack<String> stack = new Stack<String>();
+    Boolean decimal = false;
+    Boolean sign = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView result = findViewById(R.id.textView);
+
 
         //Declaring function buttons and listeners
         Button divisButton = (Button) findViewById(R.id.divisBut);
@@ -76,65 +80,138 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button nineBut = (Button) findViewById(R.id.nineBut);
         nineBut.setOnClickListener(this);
 
+        Button deciBut = (Button) findViewById(R.id.deciBut);
+        deciBut.setOnClickListener(this);
+
     }
 
 
 
-    public void onClick(View v) {
+    public void onClick(View v)  {
+        TextView result = findViewById(R.id.textView);
+
+        //TODO: handle view when length is greater than 9
 
         switch (v.getId()) {
 
             case R.id.oneBut:
-                // do your code
+
+                stack.push("1");
+                result.setText(result.getText() + stack.peek());
+
+
                 break;
 
             case R.id.twoBut:
-                // do your code
+
+                stack.push("2");
+                result.setText(result.getText() + stack.peek());
+
                 break;
 
             case R.id.threeBut:
-                // do your code
+                stack.push("3");
+                result.setText(result.getText() + stack.peek());
                 break;
 
 
             case R.id.fourBut:
-                // do your code
+                stack.push("4");
+                result.setText(result.getText() + stack.peek());
                 break;
 
 
             case R.id.fiveBut:
+                stack.push("5");
+                result.setText(result.getText() + stack.peek());
                 break;
 
             case R.id.sixBut:
+                stack.push("6");
+                result.setText(result.getText() + stack.peek());
                 break;
 
             case R.id.sevenBut:
+                stack.push("7");
+                result.setText(result.getText() + stack.peek());
                 break;
 
             case R.id.eightBut:
+                stack.push("8");
+                result.setText(result.getText() + stack.peek());
                 break;
 
 
             case R.id.nineBut:
+                stack.push("9");
+                result.setText(result.getText() + stack.peek());
                 break;
 
 
             case R.id.deciBut:
+
+                if(!decimal){
+                    stack.push(".");
+                    decimal = true;
+                    result.setText(result.getText() + stack.peek());
+
+                }
+
                 break;
 
 
             case R.id.zeroBut:
+                stack.push("0");
+                result.setText(result.getText() + stack.peek());
                 break;
 
             case R.id.signBut:
+
+
+                if(!sign){
+                    result.setText("-" + result.getText());
+                    stack.push("-");
+                    sign = true;
+                }else{
+                    sign = false;
+                    result.setText(result.getText().subSequence(1, result.getText().length()));
+                }
+
                 break;
 
 
             case R.id.clearBut:
+                //Clear all
+
+                stack = new Stack<String>();
+                decimal = false;
+                sign = false;
+
+                result.setText("");
+
                 break;
 
 
             case R.id.ceBut:
+                //Clear entry
+                if(stack.isEmpty()){
+                    break;
+                }
+
+                if(stack.peek() == "."){
+                    stack.pop();
+                    decimal = false;
+                    result.setText(result.getText().subSequence(0, result.getText().length() - 1));
+                }else if(stack.peek() == "-"){
+                    sign = false;
+                    stack.pop();
+                    result.setText(result.getText().subSequence(1, result.getText().length()));
+                }else{
+                    stack.pop();
+                    result.setText(result.getText().subSequence(0, result.getText().length() - 1));
+                }
+
+
                 break;
 
 
